@@ -1,6 +1,6 @@
-0d2a518524e78f813c20bd37198005b2 *DESCRIPTION
+741ef23d3be4cfdac7d2a043fdfa2953 *DESCRIPTION
 2fd0daf2a72955557cb85f22574d093f *NAMESPACE
-2ecd22a13ae1e23f762c6f77bf8e2241 *NEWS.md
+878adb8836cb13e066bee9491fea6c36 *NEWS.md
 12153b4d4e87a3e391e953105aac682c *R/RcppExports.R
 02d791173b5da64f383f6a420cd0be25 *R/SHAR.R
 26d5d5669ea25a12aea8a3298a355ca4 *R/calculate_energy.R
@@ -14,8 +14,8 @@ a774d29e4348b7500383288883ec4d4a *R/onUnload.R
 a36ec6d77d2c01c23a83eea09e8be2ae *R/plot_randomized_pattern.R
 e34dc69db3ebb70d60a8e4e4154947a3 *R/plot_randomized_raster.R
 50eb7a4f11a7c100f945be351bd0a083 *R/randomize_raster.R
-499c3524ac4feffb5fb1f0c26c1fa816 *R/reconstruct_marks.R
-c7a68b67d1c5dad55ff95dd983c23f69 *R/reconstruct_pattern.R
+edc6b4fb226b67f58883e14a6ad708f6 *R/reconstruct_marks.R
+e0d75cb7ab18198830c40e92f7a8b4b3 *R/reconstruct_pattern.R
 01d36710b5c9168372a877d01bafa1e7 *R/results_habitat_association.R
 2db6622cc28de856f1f8cff9d8d5c68c *R/translate_raster.R
 7ddc298a25fa95885df717fd83a28799 *build/vignette.rds
@@ -28,7 +28,7 @@ feaea642ee314a9f1c73d75dfbfcafc0 *data/species_a.rda
 d3e922f79b272848b8d911eb62ae65f5 *data/torus_trans.rda
 cf77b11f1c22c5a416657d5912e7246c *inst/doc/get_started.R
 60322149b9b59cb2f440568e28bc0e22 *inst/doc/get_started.Rmd
-78d6528234b69db0cc22f26565ec5a93 *inst/doc/get_started.html
+c48cec6a855b92912d634bd4aa42adb4 *inst/doc/get_started.html
 c6d3d0a1ca59f057de9bf5fc769d17eb *man/calculate_energy.Rd
 1982ec2c2c6b3a85549ad17e13f876c3 *man/classify_habitats.Rd
 b8b9b0e2603088f8b994100c1177c67a *man/create_neighbourhood.Rd
@@ -49,8 +49,8 @@ adfe684dc3f02079b43154019f2ddc6c *man/plot_randomized_raster.Rd
 1b544385e42a78397cfe67171293b841 *man/random_walk.Rd
 242c176568aadcb9cae74167089126f4 *man/randomize_raster.Rd
 742b616289bf91ddeadec913a424dfed *man/rcpp_sample.Rd
-a682d7676a14a10973a8b5fafd78a079 *man/reconstruct_marks.Rd
-c3344fbc260d3c280829c3f4e23c8abf *man/reconstruct_pattern.Rd
+c7e2a3670383e698ad6113f15c2f0539 *man/reconstruct_marks.Rd
+bd74572d2febd715faf36772a43e8f22 *man/reconstruct_pattern.Rd
 a5f7a6b9396a3166eeb03cb00b7d9045 *man/reconstruction.Rd
 83fa723b89d2a59c19002d4b3722845a *man/results_habitat_association.Rd
 457e7a4c0c851c08bfb10a119e0c595b *man/shar.Rd
@@ -73,7 +73,7 @@ c3ed6d207ec876af953e90549ca519ce *tests/testthat/test-calculate_energy.R
 9aa20a94fecfbed30c74bdffd314edd4 *tests/testthat/test-plot_randomized_pattern.R
 7ff0341ecea41cbcc2460364e4352c9e *tests/testthat/test-plot_randomized_raster.R
 442ca94a193975b0cef8ca7c2193ed82 *tests/testthat/test-randomize_raster.R
-d4e3152d5fd6772fdba8c7a97d83a63c *tests/testthat/test-reconstruct_marks.R
+bbe1115f435b89ee777dfb69ba4c7d8d *tests/testthat/test-reconstruct_marks.R
 368b472cf958c96699a6cad46961b285 *tests/testthat/test-reconstruct_pattern.R
 cacb14e7b68712e52f4ef3685446fce7 *tests/testthat/test-results_habitat_association.R
 09c0c9b91a95974cba076a4ad8877ff7 *tests/testthat/test-translate_raster.R

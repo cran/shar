@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 0.4
+Version: 0.5
 Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
@@ -17,7 +17,8 @@ License: GPL-3
 URL: https://r-spatialecology.github.io/shar
 BugReports: https://github.com/r-spatialecology/shar/issues
 Depends: R (>= 3.1)
-Imports: classInt, graphics, raster, spatstat, stats, utils, Rcpp
+Imports: classInt, graphics, grDevices, raster, spatstat, stats, utils,
+        Rcpp
 RoxygenNote: 6.1.1
 Suggests: covr, dplyr, testthat, knitr, rmarkdown
 VignetteBuilder: knitr
@@ -25,9 +26,9 @@ Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2019-05-27 12:41:46 UTC; Maximilian
+Packaged: 2019-07-09 09:01:06 UTC; Maximilian
 Author: Maximillian H.K. Hesselbarth [aut, cre]
     (<https://orcid.org/0000-0003-1125-9918>),
   Marco Sciaini [aut] (<https://orcid.org/0000-0002-3042-5435>)
 Repository: CRAN
-Date/Publication: 2019-05-27 13:00:03 UTC
+Date/Publication: 2019-07-09 10:20:38 UTC
