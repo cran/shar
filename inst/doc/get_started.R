@@ -21,7 +21,7 @@ landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
 ## ----randomize_pp, eval = FALSE------------------------------------------
 #  gamma_test <- fit_point_process(pattern = species_a, n_random = 39, process = "cluster")
 #  
-#  reconstruction <- reconstruct_pattern(pattern = species_a, n_random = 39) # takes some time
+#  reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39) # takes some time
 
 ## ----results-------------------------------------------------------------
 results_habitat_association(pattern = species_a, raster = random_walk)
