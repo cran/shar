@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2021-05-04" />
+<meta name="date" content="2021-12-06" />
 
 <title>Get started</title>
 
@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <h1 class="title toc-ignore">Get started</h1>
-<h4 class="date">2021-05-04</h4>
+<h4 class="date">2021-12-06</h4>
 
 
 
@@ -155,47 +155,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="randomize-environmental-data" class="section level2">
 <h2>Randomize environmental data</h2>
 <p>There are two functions to randomize the environmental data: <code>translate_raster()</code> and <code>randomize_raster()</code>. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in <code>n_random &lt;- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4</code> randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the <code>n_random</code> argument.</p>
+<p>However, all methods require “fully mapped data” in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>torus_trans <span class="ot">&lt;-</span> <span class="fu">translate_raster</span>(<span class="at">raster =</span> landscape_discrete)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>random_walk <span class="ot">&lt;-</span> <span class="fu">randomize_raster</span>(<span class="at">raster =</span> landscape_discrete, <span class="at">n_random =</span> <span class="dv">39</span>)</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>random_walk <span class="ot">&lt;-</span> <span class="fu">randomize_raster</span>(<span class="at">raster =</span> landscape_discrete, <span class="at">n_random =</span> <span class="dv">99</span>)</span></code></pre></div>
 </div>
 <div id="randomize-location-data" class="section level2">
 <h2>Randomize location data</h2>
 <p>To randomize the location data (i.e. the point pattern) either <code>fit_point_process()</code> or <code>reconstruct_pattern()</code> are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the <code>spatstat</code> package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel &amp; Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the <code>n_random</code> argument.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gamma_test <span class="ot">&lt;-</span> <span class="fu">fit_point_process</span>(<span class="at">pattern =</span> species_a, <span class="at">n_random =</span> <span class="dv">39</span>, <span class="at">process =</span> <span class="st">&quot;cluster&quot;</span>)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gamma_test <span class="ot">&lt;-</span> <span class="fu">fit_point_process</span>(<span class="at">pattern =</span> species_b, <span class="at">process =</span> <span class="st">&quot;cluster&quot;</span>, <span class="at">n_random =</span> <span class="dv">99</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>reconstruction <span class="ot">&lt;-</span> <span class="fu">reconstruct_pattern_homo</span>(<span class="at">pattern =</span> species_a, <span class="at">n_random =</span> <span class="dv">39</span>) <span class="co"># takes some time</span></span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (this can takes some time)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>reconstruction <span class="ot">&lt;-</span> <span class="fu">reconstruct_pattern</span>(<span class="at">pattern =</span> species_b, <span class="at">n_random =</span> <span class="dv">99</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">e_threshold =</span> <span class="fl">0.05</span>, <span class="at">method =</span> <span class="st">&quot;cluster&quot;</span>)</span></code></pre></div>
 </div>
 <div id="analyse-results" class="section level2">
 <h2>Analyse results</h2>
 <p>The most important function to analyse results is <code>results_habitat_association()</code>. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">results_habitat_association</span>(<span class="at">pattern =</span> species_a, <span class="at">raster =</span> random_walk)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   habitat count    lo    hi significance</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       1     9  2.95 12.05         n.s.</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       2    25  8.00 21.05     positive</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       3    27  9.95 25.10     positive</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       4     0 15.90 28.05     negative</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       5    12  4.95 19.05         n.s.</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">results_habitat_association</span>(<span class="at">pattern =</span> reconstruction, <span class="at">raster =</span> landscape_discrete)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   habitat count    lo    hi significance</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       1     8  1.00 23.35         n.s.</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       2    22 25.85 49.10     negative</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       3    33 40.80 68.05     negative</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       4    19 44.00 71.10     negative</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       5   118 20.85 60.05     positive</span></span></code></pre></div>
-<p>There is also the possibility to visualize the randomized data using <code>plot_randomized_raster()</code> or <code>plot_randomized_pattern()</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_randomized_raster</span>(random_walk)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Input: randomized raster</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   habitat count    lo    hi significance</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       1    35 10.45 32.10     positive</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       2    44 22.45 50.55         n.s.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       3    36 20.00 48.55         n.s.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       4     4 25.90 55.00     negative</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       5    73 46.80 79.10         n.s.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">results_habitat_association</span>(<span class="at">pattern =</span> reconstruction, <span class="at">raster =</span> landscape_discrete)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Input: randomized pattern</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   habitat count    lo    hi significance</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       1     6 27.00 47.00     negative</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       2    18 35.35 63.55     negative</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       3    18 28.45 48.00     negative</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       4    21 20.00 38.55         n.s.</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       5   129 30.00 50.55     positive</span></span></code></pre></div>
+<p>There is also the possibility to visualize the randomized data using the <code>plot()</code> function.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(random_walk)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_randomized_pattern</span>(reconstruction)</span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(reconstruction)</span></code></pre></div>
 <p>For the randomized point pattern data, it is also possible to show the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006) between the patterns.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_energy</span>(<span class="at">pattern =</span> gamma_test, <span class="at">return_mean =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1274803</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1346688</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_energy</span>(<span class="at">pattern =</span> reconstruction, <span class="at">return_mean =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.01871392</span></span></code></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.04908566</span></span></code></pre></div>
+<p>Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., <code>fit_point_process()</code> vs. <code>translate_raster</code>) and even for repetitions of the same approach. However, general results and trends should be similar.</p>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Fisher, W. D. 1958 “On grouping for maximum homogeneity”, Journal of the American Statistical Association, 53, 789-798</p>

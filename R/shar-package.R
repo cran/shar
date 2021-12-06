@@ -1,4 +1,4 @@
-#' @title shar
+#' @title Package description
 #'
 #' @description
 #' Analyse species-habitat associations in R. Therefore, information about the
@@ -9,8 +9,6 @@
 #'
 #' @name shar
 #' @docType package
-#' @useDynLib shar, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 "_PACKAGE"
 
 # Global variables
