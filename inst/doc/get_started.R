@@ -31,10 +31,10 @@ results_habitat_association(pattern = species_a, raster = random_walk)
 
 results_habitat_association(pattern = reconstruction, raster = landscape_discrete)
 
-## ----plotting, eval = FALSE---------------------------------------------------
-#  plot(random_walk)
-#  
-#  plot(reconstruction)
+## ----plotting, fig.align = "center", out.height = "100%", out.width = "100%", message = FALSE----
+plot(random_walk)
+
+plot(reconstruction, ask = FALSE)
 
 ## ----energy, message = FALSE--------------------------------------------------
 calculate_energy(pattern = gamma_test, return_mean = TRUE)
