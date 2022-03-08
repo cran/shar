@@ -4,15 +4,15 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ----load_libraries_hidden, eval = TRUE, echo = FALSE, message = FALSE, results = "hide"----
+## ----import-libs, message = FALSE, warning = FALSE----------------------------
 library(shar)
-library(spatstat.core)
+library(spatstat)
 library(raster)
 
 set.seed(42)
 
 ## ----classify_habitats--------------------------------------------------------
-landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
+landscape_discrete <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 ## ----randomize_raster, eval = FALSE-------------------------------------------
 #  torus_trans <- translate_raster(raster = landscape_discrete)
