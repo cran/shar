@@ -1,3 +1,11 @@
+# shar 2.0.0
+* Improvements
+  * Using `terra` instead of `raster`
+* Bugfixes
+  * Naming raster values "layer"
+* New functionality
+  * Adding `pack_randomized()` and `unpack_randomized()` due to `terra` saving behavior
+
 # shar 1.3.2
 * Improvements
   * Improvement of `classify_habitats()` to be more variable
@@ -6,8 +14,9 @@
   * Include new `spatstat` package structure
 
 # shar 1.3.1
-* Improvements
+* Bugfixes
   * Bugfix in `plot.rd_pat()` and `plot.rd_mar()`
+* New functionality
   * Adding internal `sample_randomized()` function used during plotting
 
 # shar 1.3
@@ -92,8 +101,8 @@
 
 # shar 0.2.1
 * Improvements
-  * minor speed improvment for `reconstruct_pattern()`, `reconstruct_marks()` and `calculate_energy()`
-    * The starting pattern is now identical for all n_random and only the relocation process differs between randomizations
+  * Minor speed improvement for `reconstruct_pattern()`, `reconstruct_marks()` and `calculate_energy()`
+    * The starting pattern is now identical for all n_random and only the relocation process differs between randomization
     * All summary functions are only calculated for 250 steps from 0 to `rmax`
 * Bugfixes
 * New functionality

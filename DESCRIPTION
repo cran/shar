@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 1.3.2
+Version: 2.0.0
 Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
@@ -22,20 +22,22 @@ License: GPL (>= 3)
 URL: https://r-spatialecology.github.io/shar/
 BugReports: https://github.com/r-spatialecology/shar/issues/
 Depends: R (>= 3.1.0)
-Imports: classInt, graphics, grDevices, methods, raster, spatstat.core,
-        spatstat.geom, spatstat.random, stats, utils
-RoxygenNote: 7.1.2
-Suggests: covr, dplyr, future, future.apply, knitr, rmarkdown, spatstat
-        (>= 2.0.0), testthat (>= 2.1.0)
+Imports: classInt, graphics, grDevices, methods, spatstat.core,
+        spatstat.geom, spatstat.random, stats, terra, utils
+RoxygenNote: 7.2.1
+Suggests: covr, dplyr, getCRUCLdata, ggplot2, future, future.apply,
+        knitr, patchwork, rgbif, rgdal, rmarkdown, rnaturalearth,
+        rnaturalearthdata, sf, spatstat (>= 2.0.0), testthat (>= 2.1.0)
+Additional_repositories: http://packages.ropensci.org
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
-Packaged: 2022-03-05 15:21:29 UTC; Maximilian
+Packaged: 2022-09-21 15:25:02 UTC; mhessel
 Author: Maximillian H.K. Hesselbarth [aut, cre]
     (<https://orcid.org/0000-0003-1125-9918>),
   Marco Sciaini [aut] (<https://orcid.org/0000-0002-3042-5435>),
   Zeke Marshall [ctb] (<https://orcid.org/0000-0001-9260-7827>),
   Thomas Etherington [ctb] (<https://orcid.org/0000-0002-3187-075X>)
 Repository: CRAN
-Date/Publication: 2022-03-08 13:40:02 UTC
+Date/Publication: 2022-09-21 22:40:02 UTC
