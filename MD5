@@ -1,6 +1,6 @@
-7736d3322b6cb9e92395f86e040f07c3 *DESCRIPTION
+4006a7be4a97c701d66194512733439a *DESCRIPTION
 9bd15ebb82ae6a3616462ae1fcc22889 *NAMESPACE
-d633c4262b337ff270bffd77c8e4be00 *NEWS.md
+a8aa1049464e2c326d41b00c651c247e *NEWS.md
 5151146def5d74e1e7419855ff6a8429 *R/calculate_energy.R
 58cf33544510ad01bffcdd8f241461a5 *R/classify_habitats.R
 3f636ed16ea0b851c70b6c3fc295bb02 *R/classint_to_vector.R
@@ -10,7 +10,6 @@ e71e970595e1b325270016bc9d0147af *R/create_neighbourhood.R
 6b8f0f7ac1b247a2bcc2f4497b9da3d8 *R/extract_points.R
 96bef8f5cf6cd60511307919410cc108 *R/fit_point_process.R
 1ede4d2427248694de1310a14426b53d *R/list_to_randomized.R
-f4d4d2066e4ed7b79117f7c4f4708a4d *R/onLoad.R
 febaafad683eaad55f31726756aa3b4a *R/pack_randomized.R
 99f41dce7480d70e4b60695ae26ff598 *R/plot.rd_mar.R
 9651fadf4c39603d7718170362aaac28 *R/plot.rd_pat.R
@@ -40,17 +39,16 @@ b50d96fa1af1a3406afb38a16a89dcad *data/reconstruction.rda
 7d0aad2042d2b6330d1f9cc20ea69ebb *data/species_b.rda
 f68445fb38764aa24dedb309a168ad44 *data/torus_trans.rda
 4b7fa867862617dbd7e2b2230bd7afd9 *inst/CITATION
-82cfe2a2e3eb95acf5a1b9828ca3411a *inst/Hesselbarth_2021_Journal_of_Open_Source_Software_6_68.pdf
 f3245e57683ac22da9894babed5876d4 *inst/doc/get_started.R
 6f2939bef0bc18ab7108c0eac38b7bfa *inst/doc/get_started.Rmd
-0ffc97c83b42b4ad064af6f7b7970717 *inst/doc/get_started.html
+f77535a404a56b4566b7e23c114170ed *inst/doc/get_started.html
 2bb6822b86cf89c6645d3573151ec40f *man/calculate_energy.Rd
 204d0f5ba688969d8eaa83eb31a70f92 *man/classify_habitats.Rd
 3ae3d794fa6281a1639fe9f844bb3323 *man/classint_to_vector.Rd
 d4fee49fc175101b67ecd65b596ba90f *man/create_neighbourhood.Rd
 25c64aede84ecf6e127937f746db24e3 *man/estimate_pcf_fast.Rd
 3c631f6e91e39215a949c3c7da30701e *man/extract_points.Rd
-8e85b5e79de14901d6c124c3a2b413a2 *man/figures/README-plot-random_pattern-1.png
+7df64e69249f6134dd6c42ee4e26dfed *man/figures/README-plot-random_pattern-1.png
 ce0d4b60e87875f66c852dfb7664aa7e *man/figures/logo.png
 c6b967778dfea81ca5bfee3fd59b1ce2 *man/fit_point_process.Rd
 1cf7dfaa154b256f1d34dfc8edcfcce1 *man/gamma_test.Rd
@@ -74,7 +72,7 @@ c9988bd2aafd3be0924b74f1d301f25d *man/reconstruct_pattern_marks.Rd
 e5ea031cdcfe96f5633f48272600410c *man/reconstruction.Rd
 80a2bed34b54614da7d7f2627249a42e *man/results_habitat_association.Rd
 c6925def8ccd36b24096a0acecd82666 *man/sample_randomized.Rd
-3d5452af95b1fc2e31ba5709d3538fe7 *man/shar.Rd
+bd063315bc57130bd79f75e377cbd503 *man/shar.Rd
 1b59af9ddcef97144320bed350b994c3 *man/species_a.Rd
 56ef2835d62b64c1b6d6db960182e64f *man/species_b.Rd
 30dbe3cfd40f2ddbd43018fbe650fcc3 *man/torus_trans.Rd
