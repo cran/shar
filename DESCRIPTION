@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 2.0.2
+Version: 2.0.3
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
@@ -9,7 +9,9 @@ Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@g
              person("Zeke", "Marshall", email = "ee18zm@leeds.ac.uk",
              role = "ctb", comment = c(ORCID = "0000-0001-9260-7827")), 
              person("Thomas", "Etherington", email = "teth001@aucklanduni.ac.nz",
-             role = "ctb", comment = c(ORCID = "0000-0002-3187-075X"))
+             role = "ctb", comment = c(ORCID = "0000-0002-3187-075X")), 
+             person("Janosch", "Heinermann", email = "janosch.heinermann@tu-dresden.de",
+             role = "ctb", comment = c(ORCID = "0000-0001-5080-8591"))
              )
 Maintainer: Maximilian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description: 
@@ -25,18 +27,19 @@ Depends: R (>= 3.1.0)
 Imports: classInt, graphics, grDevices, methods, spatstat.explore,
         spatstat.model, spatstat.geom, spatstat.random, stats, terra,
         utils
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Suggests: covr, dplyr, knitr, rmarkdown, spatstat (>= 2.0-0), testthat
         (>= 3.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
-Packaged: 2022-11-16 14:44:15 UTC; mhessel
+Packaged: 2023-03-13 13:08:33 UTC; hesselbarth
 Author: Maximilian H.K. Hesselbarth [aut, cre]
     (<https://orcid.org/0000-0003-1125-9918>),
   Marco Sciaini [aut] (<https://orcid.org/0000-0002-3042-5435>),
   Zeke Marshall [ctb] (<https://orcid.org/0000-0001-9260-7827>),
-  Thomas Etherington [ctb] (<https://orcid.org/0000-0002-3187-075X>)
+  Thomas Etherington [ctb] (<https://orcid.org/0000-0002-3187-075X>),
+  Janosch Heinermann [ctb] (<https://orcid.org/0000-0001-5080-8591>)
 Repository: CRAN
-Date/Publication: 2022-11-16 15:40:02 UTC
+Date/Publication: 2023-03-13 14:10:02 UTC
