@@ -12,7 +12,7 @@
 
 <meta name="author" content="Maximilian H.K. Hesselbarth" />
 
-<meta name="date" content="2023-08-29" />
+<meta name="date" content="2023-10-02" />
 
 <title>Get started</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Get started</h1>
 <h4 class="author">Maximilian H.K. Hesselbarth</h4>
-<h4 class="date">2023-08-29</h4>
+<h4 class="date">2023-10-02</h4>
 
 
 
@@ -351,24 +351,31 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span></code></pre></div>
 <div id="design" class="section level2">
 <h2>Design</h2>
-<p>The core of <strong>shar</strong> are functions to to simulate null
-model data by randomizing either the environmental data (i.e. raster
-data) or the locations of species (i.e. point pattern data). The null
-data is then used to analyse if significant species-habitat associations
-are present. Additionally, functions to visualize and analyse the
-results are available as well as some utility functions. The methods are
-mainly described in Harms et al. (2001), Plotkin et al. (2000) and
-Wiegand &amp; Moloney (2014). The methods are not necessary
-complementary, but are rather different approaches for the same
-result.</p>
+<p>The core of <strong>shar</strong> are functions to simulate null
+model data by randomizing either the environmental data (i.e., raster)
+or the locations of species (i.e., point pattern). The null model data
+is then used to analyse if significant species-habitat associations are
+present. Additionally, functions to visualize and analyse the results
+are available as well as some utility functions. The methods are mainly
+described in Harms et al. (2001), Plotkin et al. (2000), and Wiegand
+&amp; Moloney (2014). The methods are not necessary complementary, but
+are rather different approaches to achieve the same result.</p>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p><strong>shar</strong> comes with build-in example data sets.
+<code>species_a</code> and <code>species_b</code> are exemplary
+locations of individuals, e.g., tree locations wthin a forest study plot
+(as <code>ppp</code>-objects); <code>landscape</code> contains exemplary
+continuous environmental data (as <code>SpatRast</code>-object).</p>
+</div>
 </div>
 <div id="preprocessing-of-input-data" class="section level2">
 <h2>Preprocessing of input data</h2>
-<p>All functions are designed for discrete habitat classes. Following,
-in case only continuous data is available, this has to be classified to
-discrete classes. <code>classify_habitats</code> provides several ways
-to classify the data such as the Fisher-Jenks algorithm (Fisher 1958,
-Jenks &amp; Caspall 1971)</p>
+<p>All functions are designed for discrete habitat classes. Thus, if
+continuous data is available, this has to be classified to discrete
+classes first. <code>classify_habitats</code> provides several ways to
+classify the data, such as the Fisher-Jenks algorithm (Fisher 1958,
+Jenks &amp; Caspall 1971).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>landscape_discrete <span class="ot">&lt;-</span> <span class="fu">classify_habitats</span>(<span class="at">raster =</span> terra<span class="sc">::</span><span class="fu">rast</span>(landscape), <span class="at">n =</span> <span class="dv">5</span>, <span class="at">style =</span> <span class="st">&quot;fisher&quot;</span>)</span></code></pre></div>
 </div>
 <div id="randomize-environmental-data" class="section level2">
@@ -378,16 +385,17 @@ Jenks &amp; Caspall 1971)</p>
 first function is a torus translation of the raster, shifting the
 habitat map in all four cardinal directions. This is only possible for
 rectangular observation areas and results in
-<code>n_random &lt;- (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4</code>
-randomized rasters. The other function randomizes the environmental data
-using a random-walk algorithm. Here, the number of randomized rasters
-can be specified using the <code>n_random</code> argument.</p>
-<p>However, all methods require “fully mapped data” in a sense that NA
-cells of the environmental data are allowed only if simultaneously these
-areas cannot accommodate any locations of the point pattern (e.g., a
+<code>R (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4</code>
+randomized raster (based on number of rows and cols). The other function
+randomizes the environmental data using a random-walk algorithm. Here,
+the number of randomized raster can be specified using the
+<code>n_random</code> argument.</p>
+<p>All methods require “fully mapped data” in a sense that
+<code>NA</code> cells of the environmental data are allowed only if
+these cells cannot accommodate any locations of individuals (e.g., a
 water body within a forest area). This needs to be reflected in the
 observation window of the point pattern. For the torus translation
-method, no NA values are allowed at all.</p>
+method, no <code>NA</code> values are allowed at all.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>torus_trans <span class="ot">&lt;-</span> <span class="fu">translate_raster</span>(<span class="at">raster =</span> landscape_discrete)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>random_walk <span class="ot">&lt;-</span> <span class="fu">randomize_raster</span>(<span class="at">raster =</span> landscape_discrete, <span class="at">n_random =</span> <span class="dv">39</span>)</span></code></pre></div>
@@ -396,14 +404,13 @@ method, no NA values are allowed at all.</p>
 <h2>Randomize location data</h2>
 <p>To randomize the location data (i.e. the point pattern) either
 <code>fit_point_process()</code> or <code>reconstruct_pattern()</code>
-are available. The first fits either a Poisson process or a cluster
-process to the data. The difference to solutions from the
-<code>spatstat</code> package is that the number of points is always
-identical. The second functions reconstructs the spatial characteristics
-of the data using pattern reconstruction (Tscheschel &amp; Stoyan 2006).
-This is advantageous for point patterns not describable by simple point
-process models. For both function, the number of patterns can be
-specified by the <code>n_random</code> argument.</p>
+are available. The first fits a Poisson process or a cluster process to
+the data. The second functions reconstructs the spatial characteristics
+of the data using pattern reconstruction (Kirkpatrick et al. 1983;
+Tscheschel &amp; Stoyan 2006). This is advantageous for point patterns
+not describable by simple point process models. For both function, the
+number of patterns can be specified by the <code>n_random</code>
+argument.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>gamma_test <span class="ot">&lt;-</span> <span class="fu">fit_point_process</span>(<span class="at">pattern =</span> species_b, <span class="at">process =</span> <span class="st">&quot;cluster&quot;</span>, <span class="at">n_random =</span> <span class="dv">39</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># (this can takes some time)</span></span>
@@ -415,14 +422,16 @@ specified by the <code>n_random</code> argument.</p>
 <p>The most important function to analyse results is
 <code>results_habitat_association()</code>. This function compares the
 observed data to the null model data and by that is able to show
-significant species-habitat associations. The functions work for both,
+significant species-habitat associations. The function work for both,
 randomized environmental data or randomized location data.</p>
 <p>Please be aware that due to the randomization of the null model data,
 results might slightly differ between different randomization approaches
 (e.g., <code>fit_point_process()</code>
-vs. <code>translate_raster()</code>) and even for repetitions of the
-same approach. However, the counts of the observed data should be
-identical, and general results and trends should be similar.</p>
+vs. <code>translate_raster()</code>), and even for repetitions of the
+same approach. Thus, the exact <code>lo</code> and <code>hi</code>
+thresholds might be slightly different when re-running the examples.
+However, the counts of the observed data should be identical, and
+general results and trends should be similar.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">results_habitat_association</span>(<span class="at">pattern =</span> species_a, <span class="at">raster =</span> random_walk)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; &gt; Input: randomized raster</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span></span>
@@ -436,27 +445,44 @@ identical, and general results and trends should be similar.</p>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">results_habitat_association</span>(<span class="at">pattern =</span> reconstruction, <span class="at">raster =</span> landscape_discrete)</span>
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; &gt; Input: randomized pattern</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;   habitat breaks count    lo    hi significance</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 1       1     NA     6  2.95 11.15         n.s.</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 2       2     NA    18 19.85 51.30     negative</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 3       3     NA    18 33.95 58.00     negative</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 4       4     NA    21 36.90 54.05     negative</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 5       5     NA   129 38.90 76.50     positive</span></span></code></pre></div>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;   habitat breaks count    lo     hi significance</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 1       1     NA     6  5.90  26.95         n.s.</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 2       2     NA    18 11.85  51.40         n.s.</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 3       3     NA    18 16.95  56.25         n.s.</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 4       4     NA    21 27.70  54.00     negative</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 5       5     NA   129 39.75 100.10     positive</span></span></code></pre></div>
+<p>The data was created that <code>species_a</code> has a negative
+association to habitat 4 and <code>species_b</code> has a positive
+association to habitat 5, which is reflected in the results.</p>
+<p>Given the characteristics of the method, a positive association to
+one habitat inevitably leads to a negative association to at least one
+of the other habitats (and vice versa; Yamada et al. 2006). For example,
+a high amount of individual points in the positively associated habitat
+simultaneously mean that less individual points can be present in the
+other habitats.</p>
+</div>
+<div id="utility-functions" class="section level2">
+<h2>Utility functions</h2>
 <p>There is also the possibility to visualize the randomized data using
 the <code>plot()</code> function.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(random_walk)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" width="100%" height="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">plot</span>(reconstruction, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" width="100%" height="100%" style="display: block; margin: auto;" /><img src="data:image/png;base64,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" width="100%" height="100%" style="display: block; margin: auto;" /></p>
-<p>For the randomized point pattern data, it is also possible to show
-the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006)
-between the patterns.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">calculate_energy</span>(<span class="at">pattern =</span> gamma_test, <span class="at">return_mean =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.1318716</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">calculate_energy</span>(<span class="at">pattern =</span> reconstruction, <span class="at">return_mean =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.04907375</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(reconstruction, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>col_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#440154FF&quot;</span>, <span class="st">&quot;#3B528BFF&quot;</span>, <span class="st">&quot;#21908CFF&quot;</span>, <span class="st">&quot;#5DC863FF&quot;</span>, <span class="st">&quot;#FDE725FF&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">plot</span>(torus_trans, <span class="at">col =</span> col_palette)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAzFBMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYhkIw6AAA6ADo6AGY6OgA6Ojo6OpA6ZpA6ZrY6kJA6kLY6kNs7UotEAVRdyGNmAABmADpmAGZmOgBmOjpmOpBmZjpmkLZmkNtmtttmtv+QOgCQOjqQOmaQZgCQZjqQkGaQtpCQttuQ2/+2ZgC2Zjq2kDq2kGa2tpC227a22/+2/7a2///bkDrbkGbbtmbbtpDb25Db2//b/7bb/9vb///95yX/tmb/25D/27b/29v//7b//9v///+1ue26AAAACXBIWXMAAA7DAAAOwwHHb6hkAAATaklEQVR4nO2dfX/bthHH4cQW3XVJO9tK6yadlXRdE8Xd3NDu1spSaun9v6cBIEA8HXAHPmqf4v5IKBIkf/zy7gAQMMkOxZLG5hZw7FYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIVYAIQYB2rJnn2Lld+fxbd5+9+eMfbU5HPYfz9nJjdz5Wq9h7PQDWeNAeg6HNbuwFrassVW7AB1kPEBredKFXliJfcXCxWH/Vvx/QiY0FKAHpgA1C+MASpmz39MrLuKBY3j6jt1wSAvB5eJwz842W752f8sXuhy3qx7pthJQuyBsrWWsI3rYy424lpsfmViScXH6szywiIfT9+Ienfx0zU7v+O/TT/KO8fLaBXjxk78fnP2U7b7kP3hJeVv2AtDTK7W5FlraXxPp4bfn+ZeCS7vgMIzeBCaVMx0OdbPECyu/u1GBwZ6fyxKuoCZ6Luz9HOMX80H+J652d376o5SvAIExNpqe/bvvf38rAemFhpq3AAiSJzi74zdZLi02vLBeuuVLXNBi8yCyay1/NSfdKnV3WqLazzk4X7NoOImcvNWXzUPsvbgEKObvR9QT4sAdSANaNWWa05klsUV6gfzHrBeXzL2gzW5mP0+QXiGuZSvuv1hokjQMaGQ9LiCCA3mCmkOKwzdLYkdIkLjHm9aRRT2g93P1tFEkAkpulpEl0uTL60iIjaYn5KEygLUACTrb2HdMFATvmEwDaj1fLU9d68xv9nPkcIfna/+quBhADTLQqbej6QEAbXX5bbxKdQHJ2P3sx7wvqHUN7tg3vCq39zNHXptCFzqyLmTpnXCeuklPvv1jND0AoLXWsIbFNIBslw5rjdUhFKRDfZGqNVRlww9Q60JbtZBqKI6mBwBESUEHxl3eEmS1H3417Y6ooP1ttN3R5oOmcaK7GrL0nrdyTu9APf8eSw8MaKV/g61oCSi2oVhjAwPSgZXR0xrV+uspgBArIYZYAYRYAYRYAYSYDYiNYj20HYMevzy7bOwKt0uS9XRRVjW2dOwxbU2hyrZLvaoA+pMCqjIBVZ4VQNMCIuCZGpCNKC+6RgBE4jMlIH5phkyckAbokFFWAE0FyGhYhuacFdQWhMDAOag9GRJfXB//x/AZHFB41fadmQ9Q9DxKgu84DqCqG6D2OeW4gMhNWVfPaICIetjh6bV4oL//4ZMFCLpqdQbjwrmAVOqyBD19CwxseHrifPhJI3igXKg35uqZExA88jMfIFAPO5hRBw8Q5NR2DfHoWS6g/Q+/QB7k6UmFmH1CIw6uTXFAsB44SUfx2IgoeDqEmKeHBMjRFcIRp9Vb80MMStKzAqIn6WkAmZiXwuKZxZeSCyisNZAkLUtXtg0KiKYnmaSjiCI5SJcGAQGWUYsREGUCIupJJOmZAEWS9IyA3N/+ZVuX/+iqcatZuxwVEMESgHxc/QGBAuSkkdt2NtMRAHL1zA+Ix/z2IpqDAADaYpt7AvL0VIBZODSbBKCmshoVkHvNSUCBjQFIgHFcytoA0pGA5O9xQmwQQEG1KqYJQfOWkiE2HCCiHnKSDhnRUBlBSnK7ohZzy6PzcvReEUCAwaHlP97L1dMPELiFCkiKis7sMoD4bRe3Pg9P9Plnrp55AeGdsWkBAXo6ANKd55CZflTblkIAPX2Dztph+uoxNA6iAE8LqMrVMyeg3Rf4rKYpAYF6sgFF2kHBqhCQX2vs/kL4Gx5mrlqywEIrxgcIMZqeXEBOSzrYFHpaoh20trpcFEAOKhgORCYGiKhnRkAkmxBQRIC9HDwPihNqAekBEPuHbX3nB0GAYpbgc6WBDjMuRgekUw88kDeSB+XjER5UAB0FIOvJglkBhZa2/IHDfEBXKB5KLTY7IJVZzRnXkT80nggQTU8eIOfRlF4FNIJIgLYLSldjkPgiAYL1ZAGy8dg5yLIcDyL1xYbBQ/Kg/n2xoQHVA4XYUIAgPRkP7R06DSAfD5COknfssEafB03qQYAeKiCdafTkhUpNSWp+JdwoLQh/HjQQHyIg8HkQPPQ8PCC/Wt0uYA9y9YwHiKYHG1l1IsyKrwaQ9TuWjBLNjDXYV/X0DIOH1BcD9cwJCLb5AIGGDT1beABA1qpYlHUZOAz0RAO4lQeOkRutZrrXOF0NDw4EKDYXvm9fjAQoLORI6wmIkKQnBQROKp0RUGp+0CMYXRFAFiJr/+zOKqQHAfQYFtLighmV+Z3VVJIOb0YVzl1v2FSRufBGkDqWLQhqBkX0YIBCPK7yrnrSSXpkQLtzqJ0I65kCEKRHbd7qLSAgjUWN4UGA2gAz+6GC9u/exBrSgR4ET3xKZQYgUA/TL8R6lgixkQDVF2CIgXqmAATqYcKxVhEPsk8QNtCWsRRtLClo92IDdsVAPRigBCUqIFiP3Lw+ewAAWUcHW7AuH0ia6NrHBdXRcTFID/ZgLuVHNECwHqZu2gSAgGo11pkH9AwPiKYnaEkvWxUGENwH8htHsLhkMwN92hHOuk3g8cq5hEgDmRmALPeJjWBWVW9AuAWVBhFQ4FOBB1EFFECTAYIpDQqIyAQiVAD9nwAKCPUdWc0OKhCZqQN7j6wOCUj8NIKCW7gO344b6vOvtA8g5/REPTMC2r8jvFdsQkCwnhigKgXoKgHIUGoW44JoU/BsNEsz7kYG5c+ozNVjA5IRic1dN4/BVQc2yggDtH1+Hn9DaKundQHXe8gNxmiSJuoJPGg6QIc/NocaHVmdDhCsBwAUQxOb3J8ItQr7Q358ZNW+UvfKM/BUxL4YZab9aIACEyOZRA8aAxBRTwJQCo4L6DIx1Tt7ZBUClJuZfUQGUKrhGhlZBQC1F57ic+X4TxdAFGOqFgKvPRvQMr9lXwDlA/IzD4wHesFSJaNteECdextWg1ev6Q2IgiYGyCal/ap/ZzWo4jP5NFIKoFkAJfDIrkaCkbb+IWZZZzwD5qACKANQks+VM4o4FaC8LoZVWeiVwwC6ypm7Pi4gcXFLjxIBjx6TaV9KpSu0Amh4QPCsUgzPeIDAFywtlzmU/PhSgLq0y4IJVINbLp8j0xNMoAq2Iytyf6N2ZHqYP2FpbkHHpif7eOMDOi49BVCmgGKeFUCIFUCIFUCIFUCIOYD0h2Nh273YyAJwKb72LLW9ix2DHgfQ9iLxR6T7t2cbWQAuxdfWq8T2LnYMehxA9x/MBOXA6q9fb2QBuJQUlNjexY5BjwPoY+JQuxe/vd7IApFSNe8dpLZ3sGPQQ/Yg0UO6SNyRmt+x1PYudgx66DlIvSIzFtP16rBdTJmDJtKTUYtxQYlaQX5vedJabBo9pR2EWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEWAGEGARom3hrze48vi3Yb93Ml384Zyc3/P/9R8ZOxRtW9j/zNX/vIvfpFf4hBaI4oo0J6KH5g4Kt/NOClfxMJ2MnH7w/Nsiy4wdE1yD8RUDgXC7Et1M3Ww5nf8sX+FWKNV1OMgOglxtx1psfmVg6HO7P2enP8li7ax4Q74XPnPx0zU7v+O/TT9KD1NtWhS/c61gx+ynjXJ5/KQDx/T/I3QQkfi6xv1pDl6nF8FN/f81O/salfv6ONZGrRfDD/vP82bW6KauUuBxAbKFfLytm0TTOL47VBAa74VciF56fyxIuoPZv38x+LaB33//+tgHE1womChB3I+1TZJWtGCNVLa3MH+DJNWcP4rjynAlxWYDkBZ/d7dfN0kLMStJLt3yJA1pseDr5alPLX815torWnUam9rOPLUE0vi1Cg4fYeyF2dfjM/UG4I9WMmEbqLb850jEFZVfEf6V71ri4TECr5kKayzdLYosKEf6PWS/cit8odWNFGb1fAlCTpAWgrfDGE3oyMWIaqWrp5OX7zcGIUPmJV50ywhBx3QA1RxFHbJbEJUKAxI3ctL4rnEPvFwJqQ0ym7ZfXJx9EzuNVHF2wESOP06QYkZaYjNUWkNjGC5/9R5wSEUcHJGuV1oPEOUAPkmlJrZfz/w4Hk0fMfhAgOyWLJN36FFUk5EF89R//esNUamsOLQHt3568aTJPUlw3QDJcP/s5yAfEL1xKEYHWuILZLwTUpuTddZsd5G4nhLcEHtSlWzmIZ5a6cfbGsS0RzRHrpoJFxNEB2SEW1mKrQwhIR/cCqSgaQGFDUSWjjKmnrRhTi6mDcC8xtVh726TvDFSLvZI5QQOymgy/mnZQFND+NtXUUIBMV4M3tk7vxMJHvuYrei1vxOh2kDqabLtpERqQPm1aHBlQl53+TDYwINWqZBkJ5sitAEKshBhiBRBiBRBiBRBiNiA2ivXQdgx6gldbAC9zUt/4IXxAFHjXUd93d4QvToqfbEn41mEBND2g4G1XxA+IzgAoLORILYBmAOSfow2xGCBf9JSAgEJafvsVpxEAVZ75gFxEowJyLp+Kx73FBdB0gLwjJwBZhALBAwPCAizCx+gdClBAXoWwNHvDUn1AVO81M6AEpc6AwE8ZDw+I3JRNflp5OEBEPbEv9VrHvDQfPgAAmQgz+8GA1BtOLUFP3wJPQZHPu/f91mGunjkBiSGgYwIE6mHx77v7geUAiuToMALigvY//AJ5UKAH/iRCAo9XziWUqwdM0hYe8A2/BDzAt3SIIQbogTyECMjao7H8EAOS4ryAkkl6BkDA993t9IMDin0f0xcU1hpIkm71dDP4W4e5eoIkjaQfCb3qAggwWi1m3LKvddETJOnZAQFJemZA7u8ugFKQ+rekATQdcXXRIz3o7JbpuShHAMjVMz+g5l1pvXJQClE2IE8PhGbZ42OQxwHI+jUooDAbZX/rcLYQQwEF1aqY4QPNEfJDbCRARD1BkpaXFgOk2lYwIEPJBmYEqWO0K2oxCwqbhgc+MHN/Z+Cp7K4GTQ8AyBhIRwCSv+OMbFpxQVIU9vcIbefZptHnW4e5euYFhHfGpgUE6IEBRULL/2hNItRaSwl6+gadRWQ9XXiMxFPetw5z9cwJaPcFPstqSkCgHhBQko4NSH1ijAbIrzU6fAybQCKBZ9lFTwBIXXgCj/sB0SQgPwc6tra6XDigob51mKtnRkAkmxBQRIC9LCydfdwQa02yAPn0AWSeBy0964xngHGxJJkYIAdVy8bLgd0gQXz6fOuwAJoIUIoP8QOiHqBuc+D0VzLlxWXHGfCtw/yBw8kABbdwzfC/iBoREE0PDCiJh4fYIIC2C0pXw4uQvHTtx1cSEKwHBITwIX4fs0GduGOkvph3jVlOFCSgtAfR+mJTAqqpITYRIEgPAAjDkwUofcfwD174gKpMQJVn2XoCQDieIQHhz4NCJyDxAZyHAgh8HuQO9Y4HyK9WeVIEPcjVMx4gmp5gZHU0QCAJwIFSI718yZCJE9IAHTId9cwJCLb5AIEWDD0PDOgqG1BqKNwEWAsCia9Lf/ZX767GoICurjoAcvX4nrAEDMDjO04fQCMm6U6AwiQ9LyBvPo6ZA+iYc0Io3iPVSnI+DmiBnkgVZp106euJ0bnM7zzDkzhjeHoBUmVsQVAzKEjSFUbIOb/RCzt1rp4gSU8JaHcOtRP9JD0dIEiP2tx+BBAGpEbb9WkzAD0mBO3fvYk1pI2eqsoA5NxNMCVe5eph+n0hz1IhNg6g+gIMMVfPhIBAPUw41srzoPSJqyqIo06Adi82YFfM1eMDwil1BQTrkZvXZw8WIPzUETxgoy0uqI6Oi9l6QEBJRF0BwXqYumkTAAKq1Vhn3tIzHiCanqAlDaUW/9ydAEGGPu2gAPJxEQER9cQAJf9yz4eQGvbs29WIAGopOcAIs79698UKICIgO4S8P5ipcqah9Ackry7KyIk5awNIpwCaBZABkErGaJLuOLKqrzAVaq7BoRUA6jqymnKKFKCYMf/Izkgm+mY6C1AzLScTT/CoJlfPjID27wjvOZsQEKwnI8QMoxxScUG0KXhOhCUBGZBxPClA+BQ8M2EJBwRuyAO0fX6efhsnNKHrMjZbKywHD4Hm6unqQQMAOvyxOdToyOp0gGA9WYD0A6kAjTMLNfZn4VCtgY+sQhduoYLhQGRItRhhpv1ogAITI5ldPGggQEQ9vdtB4SoqoMjIqqcnFj4pS/BJNRQjI6tEQE5LOtwWeBoBEMXYZc5sLRTPiC3pAggBZA/o6t/m3/is0/6AMtCgeCYEpDMP1m+dEhCBTwE0GyArBbUhRpnQPSkgFE8BNBsgC4+VpAl91j8HoKXDp7JWJR+iTQ2IwKcAGgEQ9kIjF44C5PNZDvdM2tUzLJ4ugLwJS4NbLp8j0xNMoAq2Iytyf6N2ZHqYP2FpbkHHpif7eOMDOi49BVCmgGKeFUCIFUCIFUCIFUCIOYD2b1NDnbsXG1kALsXXnqW2d7Fj0OMA2l4k/oh0//ZsIwvApfjaepXY3sWOQY8D6P6DmaAcWP31640sAJeSghLbu9gx6HEAfUwcavfit9cbWSBSqua9g9T2DnYMesgeJHpIF4k7UvM7ltrexY5BDz0HqVdkxmK6Xh22iylz0ER6MmoxLihRK8jvP09ai02jp7SDECuAECuAECuAECuAECuAECuAEPsfEBIQRDpMTbIAAAAASUVORK5CYII=" width="65%" height="65%" style="display: block; margin: auto;" /></p>
+<p>There are many more functions, which can be found <a href="https://r-spatialecology.github.io/shar/reference/index.html">here</a>.</p>
+<div id="citation" class="section level3">
+<h3>Citation</h3>
+<p>The <strong>shar</strong> package is part of our academic work. To
+cite the package or acknowledge its use in publications, please cite the
+following paper.</p>
+<blockquote>
+<p>Hesselbarth, M.H.K., (2021). shar: A R package to analyze
+species-habitat associations using point pattern analysis. Journal of
+Open Source Software, 6(67), 3811. <a href="https://doi.org/10.21105/joss.03811" class="uri">https://doi.org/10.21105/joss.03811</a></p>
+</blockquote>
+<p>The get a BibTex entry, please use <code>citation(&quot;shar&quot;)</code>.</p>
+</div>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of
@@ -467,6 +493,8 @@ Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2
 <p>Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps:
 Definition, measurement, reduction. Annals of the Association of
 American Geographers 61, 217–244. <a href="https://doi.org/10.1111/j.1467-8306.1971.tb00779.x" class="uri">https://doi.org/10.1111/j.1467-8306.1971.tb00779.x</a></p>
+<p>Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by
+simulated annealing. Science 220, 671–680. <a href="https://doi.org/10.1126/science.220.4598.671" class="uri">https://doi.org/10.1126/science.220.4598.671</a></p>
 <p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie,
 J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and
 habitat specialization in tropical forests. Journal of Theoretical
@@ -477,6 +505,10 @@ random point patterns. Computational Statistics and Data Analysis 51,
 <p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
 analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN
 978-1-4200-8254-8</p>
+<p>Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki,
+M., Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae
+trees in a Bornean rain forest plot. Journal of Vegetation Science 17,
+559–566. <a href="https://doi.org/10.1111/j.1654-1103.2006.tb02479.x" class="uri">https://doi.org/10.1111/j.1654-1103.2006.tb02479.x</a></p>
 </div>
 </div>
 
