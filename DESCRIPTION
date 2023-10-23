@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 2.1
+Version: 2.1.1
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
@@ -33,8 +33,9 @@ RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
+Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-10-02 09:20:02 UTC; hesselbarth
+Packaged: 2023-10-23 08:10:42 UTC; hesselbarth
 Author: Maximilian H.K. Hesselbarth [aut, cre]
     (<https://orcid.org/0000-0003-1125-9918>),
   Marco Sciaini [aut] (<https://orcid.org/0000-0002-3042-5435>),
@@ -42,4 +43,4 @@ Author: Maximilian H.K. Hesselbarth [aut, cre]
   Thomas Etherington [ctb] (<https://orcid.org/0000-0002-3187-075X>),
   Janosch Heinermann [ctb] (<https://orcid.org/0000-0001-5080-8591>)
 Repository: CRAN
-Date/Publication: 2023-10-02 09:50:02 UTC
+Date/Publication: 2023-10-23 08:30:04 UTC
